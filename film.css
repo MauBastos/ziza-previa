@@ -161,23 +161,34 @@
 .catalog-arrow::before { width: 12px; border-top: 1.5px solid; top: 6px; left: 0; transform: rotate(-45deg); }
 .catalog-arrow::after { width: 6px; height: 6px; border: solid; border-width: 1.5px 1.5px 0 0; top: 1px; right: 1px; }
 
-.cinema.mobile-film { height: auto; padding-top: 68px; background: var(--paper); scroll-margin-top: 0; }
-.mobile-film .stage { position: relative; height: auto; aspect-ratio: 16 / 9; background: var(--paper); }
-.mobile-film .stage > video { inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 0; }
-.mobile-film .stage::after, .mobile-film :is(.film-title,.film-offer,.film-progress,.film-bottom,.film-status,.film-error) { display: none; }
-body:has(.mobile-film) .store-header { color: var(--ink); text-shadow: none; }
-.mobile-film + .intro { padding: 38px 7% 55px; }
-.mobile-film + .intro .film-access { display: grid; margin-top: 22px; gap: 10px; }
-.mobile-film + .intro .film-access a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; min-height: 44px; border: 1px solid var(--line); border-radius: 4px; text-align: left; }
 
-.film-play { display:none; }
-.mobile-film .stage { position:relative; height:auto; min-height:calc(56.25vw + 280px); background:var(--paper); }
-.mobile-film .stage > video { position:static; width:100%; height:auto; aspect-ratio:16 / 9; }
+.film-picker, .film-play { display: none; }
+.cinema.mobile-film { height:auto; padding-top:68px; background:var(--paper); scroll-margin-top:0; }
+.mobile-film .stage { position:relative; height:auto; background:var(--paper); }
+.mobile-film .stage > video {
+  position:static; display:block; width:100%; height:auto; aspect-ratio:9 / 16;
+  object-fit:cover; object-position:var(--portrait-focus,70%) center;
+}
+.mobile-film .stage::after,
+.mobile-film :is(.film-title,.film-progress,.film-bottom,.film-status) { display:none; }
 .mobile-film .film-play:not([hidden]) { display:block; position:absolute; top:12px; left:7%; padding:10px 14px; background:var(--paper); border:1px solid var(--line); }
-.mobile-film :is(.film-title,.film-offer,.film-error) { position:absolute; inset:auto 0 0; height:280px; max-width:none; padding:20px 7%; color:var(--ink); text-shadow:none; }
-.mobile-film .film-title:not(.film-hidden), .mobile-film .film-offer.active { display:block; }
-.mobile-film .film-title p:last-child { display:none; }
+.mobile-film .film-panels { overflow:hidden; background:var(--paper); color:var(--ink); }
+.mobile-film .film-panel-track { display:flex; flex-direction:row-reverse; transform:translateX(calc(var(--panel-index, 0) * 100%)); transition:transform .48s ease; }
+.mobile-film .film-offer {
+  position:static; flex:0 0 100%; max-width:none; padding:22px 7%;
+  background:var(--paper); color:var(--ink); opacity:1; visibility:visible; transform:none; text-shadow:none;
+}
+.mobile-film .film-offer[data-scene="grau"] { background:var(--ink); color:white; }
+.mobile-film .film-offer h2 { font-size:clamp(34px, 10vw, 48px); }
 .mobile-film .film-offer a { border-color:var(--line); }
+.mobile-film .film-picker { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; padding:0 7% 12px; }
+.mobile-film.dark-panel .film-picker { background:var(--ink); color:white; }
+.film-picker button { min-width:44px; min-height:44px; border:0; background:none; color:inherit; }
+.film-picker button[aria-pressed]::before { content:''; display:inline-block; width:8px; height:8px; border:1px solid currentColor; border-radius:50%; }
+.film-picker button[aria-pressed="true"]::before { background:currentColor; }
+.film-picker .film-resume { text-decoration:underline; }
+.film-picker .film-resume[hidden] { display:none; }
 .mobile-film + .intro { display:none; }
-.mobile-film.film-unavailable .film-error { top:auto; color:var(--ink); background:var(--paper); }
-
+.mobile-film.film-unavailable .film-error { position:static; padding:22px 7%; color:var(--ink); background:var(--paper); }
+.mobile-film.film-unavailable .film-panels { display:none; }
+@media (prefers-reduced-motion:reduce) { .mobile-film .film-panel-track { transition:none; } }

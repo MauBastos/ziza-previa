@@ -27,7 +27,13 @@
   if (filmSection) {
     const syncHeaderColor = () => {
       const brand = header.querySelector('.brand').getBoundingClientRect();
-      const overLightContent = filmSection.getBoundingClientRect().bottom <= brand.top + brand.height / 2;
+      const center = brand.top + brand.height / 2;
+      const video = filmSection.querySelector('video').getBoundingClientRect();
+      const darkPanel = filmSection.classList.contains('dark-panel') && center >= video.bottom &&
+        center < filmSection.getBoundingClientRect().bottom;
+      const overLightContent = filmSection.classList.contains('mobile-film')
+        ? !darkPanel && (center < video.top || center >= video.bottom)
+        : filmSection.getBoundingClientRect().bottom <= center;
       header.classList.toggle('over-light-content', overLightContent);
     };
     window.addEventListener('scroll', syncHeaderColor, {passive: true});

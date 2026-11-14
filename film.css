@@ -208,3 +208,25 @@
   background: transparent; color: inherit; box-shadow: none; min-height: 0;
 }
 .mobile-film .film-offer:hover .film-cta { background: transparent; border: 0; }
+
+.mobile-film.dark-panel .film-panels { border-top-width: 12px; }
+.mobile-film .film-offer { text-align: center; }
+.mobile-film .film-offer.active { align-items: center; }
+.mobile-film .film-offer .eyebrow { font-size: 10px; }
+.mobile-film .film-offer p:not(.eyebrow) {
+  font-size: 15px;
+  line-height: 1.55;
+  max-width: 32ch;
+}
+.mobile-film .film-offer .film-cta {
+  justify-content: center;
+  width: 100%;
+  font-size: 15px;
+  text-align: center;
+}
+.mobile-film .film-cta .catalog-arrow { display: none; }
+body:has(.mobile-film) .store-header {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 1px 0 var(--line);
+}

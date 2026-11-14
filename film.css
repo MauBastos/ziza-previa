@@ -144,3 +144,19 @@
   position: relative;
   overflow: hidden;
 }
+
+.cinema.film-unavailable .film-title,
+.cinema.film-unavailable .film-bottom,
+.cinema.film-unavailable .film-progress {
+  display: none;
+}
+
+.cinema.film-unavailable .film-error {
+  top: 32%;
+  padding: 18px 22px;
+  background: #172c2fe8;
+}
+
+.cinema.film-unavailable .film-error a {
+  margin-bottom: 8px;
+}

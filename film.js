@@ -18,7 +18,6 @@ function updateMobilePanel(time) {
   }
   root.style.setProperty('--panel-index', panelIndex);
   root.classList.toggle('dark-panel', panelIndex === 1);
-  video.style.setProperty('--portrait-focus', time < 1 ? '70%' : time < 10.5 ? '50%' : time < 13.5 ? '72%' : '76%');
   dots.forEach((dot,index)=>dot.setAttribute('aria-pressed',String(index===panelIndex)));
   return offers[panelIndex].dataset.scene;
 }
@@ -69,7 +68,7 @@ function setMotion(){
   video.playbackRate=video.defaultPlaybackRate;
   video.pause();
   lastCue='';
-  if(mobile.matches)applyCue(video.currentTime);else{frozen=false;resume.hidden=true;video.style.removeProperty('--portrait-focus')}
+  if(mobile.matches)applyCue(video.currentTime);else{frozen=false;resume.hidden=true}
   playButton.hidden=!(mobile.matches&&reduced.matches);
   playMobile();
   schedule();

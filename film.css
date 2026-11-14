@@ -166,8 +166,8 @@
 .cinema.mobile-film { height:auto; padding-top:68px; background:var(--paper); scroll-margin-top:0; }
 .mobile-film .stage { position:relative; height:auto; background:var(--paper); }
 .mobile-film .stage > video {
-  position:static; display:block; width:100%; height:auto; aspect-ratio:9 / 16;
-  object-fit:cover; object-position:var(--portrait-focus,70%) center;
+  position:static; display:block; width:100%; height:auto; aspect-ratio:16 / 9;
+  object-fit:contain;
 }
 .mobile-film .stage::after,
 .mobile-film :is(.film-title,.film-progress,.film-bottom,.film-status) { display:none; }

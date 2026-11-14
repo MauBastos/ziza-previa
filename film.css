@@ -186,7 +186,7 @@
 .film-picker button { min-width:44px; min-height:44px; border:0; background:none; color:inherit; }
 .film-picker button[aria-pressed]::before { content:''; display:inline-block; width:8px; height:8px; border:1px solid currentColor; border-radius:50%; }
 .film-picker button[aria-pressed="true"]::before { background:currentColor; }
-.film-picker .film-resume { text-decoration:underline; }
+.film-picker .film-resume { order:-1; flex-basis:100%; text-decoration:underline; }
 .film-picker .film-resume[hidden] { display:none; }
 .mobile-film + .intro { display:none; }
 .mobile-film.film-unavailable .film-error { position:static; padding:22px 7%; color:var(--ink); background:var(--paper); }
@@ -200,7 +200,7 @@
   box-sizing: border-box;
   border-top: 5px solid transparent;
 }
-.mobile-film .film-panel-track { flex: 1; }
+.mobile-film .film-panel-track { flex: 1; touch-action: pan-y; }
 .mobile-film.dark-panel .film-panels { background: var(--ink); border-top-color: #fff; }
 .mobile-film .film-offer.active { display: flex; flex-direction: column; align-items: flex-start; }
 .mobile-film .film-offer .film-cta {
@@ -209,9 +209,9 @@
 }
 .mobile-film .film-offer:hover .film-cta { background: transparent; border: 0; }
 
-.mobile-film.dark-panel .film-panels { border-top-width: 12px; }
+.mobile-film.dark-panel .film-panels { border-top-width: 30px; }
 .mobile-film .film-offer { text-align: center; }
-.mobile-film .film-offer.active { align-items: center; }
+.mobile-film .film-offer.active { align-items: center; display: grid; grid-template-rows: 1fr auto auto auto 1fr; }
 .mobile-film .film-offer .eyebrow { font-size: 10px; }
 .mobile-film .film-offer p:not(.eyebrow) {
   font-size: 15px;
@@ -230,3 +230,8 @@ body:has(.mobile-film) .store-header {
   color: var(--ink);
   box-shadow: 0 1px 0 var(--line);
 }
+
+.mobile-film .film-offer.active .eyebrow { grid-row: 2; }
+.mobile-film .film-offer.active h2 { grid-row: 3; }
+.mobile-film .film-offer.active p:not(.eyebrow) { grid-row: 4; justify-self: center; }
+.mobile-film .film-offer.active .film-cta { grid-row: 5; align-self: end; }

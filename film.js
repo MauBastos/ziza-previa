@@ -33,6 +33,29 @@ dots.forEach((dot,index)=>{
     applyCue(stills[index]);
   });
 });
+const panels = picker.closest('.film-panels');
+let swipeStart;
+let suppressCardClickUntil = 0;
+panels.addEventListener('touchstart', event => {
+  swipeStart = mobile.matches && event.touches.length === 1 ? event.touches[0] : null;
+}, {passive:true});
+panels.addEventListener('touchcancel', () => { swipeStart = null; });
+panels.addEventListener('touchend', event => {
+  if (!swipeStart) return;
+  const touch = event.changedTouches[0];
+  const dx = touch.clientX - swipeStart.clientX;
+  const dy = touch.clientY - swipeStart.clientY;
+  swipeStart = null;
+  if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+  suppressCardClickUntil = performance.now() + 350;
+  const next = panelIndex + (dx < 0 ? 1 : -1);
+  dots[next]?.click();
+}, {passive:true});
+panels.addEventListener('click', event => {
+  if (event.target.closest('.film-offer') && performance.now() < suppressCardClickUntil) {
+    event.preventDefault();
+  }
+}, true);
 resume.addEventListener('click',()=>{
   frozen=false;
   resume.hidden=true;
@@ -64,6 +87,7 @@ function setMotion(){
   root.classList.toggle('mobile-film',mobile.matches);
   root.classList.toggle('manual',reduced.matches&&!mobile.matches);
   video.controls=reduced.matches&&!mobile.matches;
+  video.loop=mobile.matches;
   video.defaultPlaybackRate=mobile.matches ? .65 : 1;
   video.playbackRate=video.defaultPlaybackRate;
   video.pause();

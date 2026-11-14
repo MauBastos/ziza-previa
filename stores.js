@@ -22,7 +22,7 @@ function renderStores() {
   list.innerHTML = matches.map(([name, address, cep, cid]) => `
     <article><h2>${name}</h2><address>${address}<br>Salvador – BA · CEP ${cep}</address>
       <div class="product-controls"><button type="button" data-map="${cid}">Ver no mapa</button>
-      <a href="https://www.google.com/maps?cid=${cid}" target="_blank" rel="noopener">Abrir no Google Maps ↗</a></div>
+      <a href="https://www.google.com/maps?cid=${cid}" target="_blank" rel="noopener">Abrir no Google Maps <svg class="ziza-arrow" aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 12 4M5 4h7v7"/></svg></a></div>
     </article>`).join('');
   status.textContent = matches.length ? '' : 'Nenhuma unidade encontrada. Busque pelo bairro, endereço ou CEP.';
   if (matches.length) showMap(matches.length === 1 ? matches[0] : null);

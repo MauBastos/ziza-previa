@@ -110,22 +110,10 @@
 }
 
 .film-offer a:hover { background: #e9dcc8; border-color: #e9dcc8; }
-.film-backdrop { display: none; }
 
 @media (max-aspect-ratio: 1/1) {
   .stage { background: #56463e; }
 
-  .film-backdrop {
-    display: block;
-    position: absolute;
-    z-index: -3;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: blur(34px) saturate(.85);
-    transform: scale(1.18);
-  }
 
   .stage::after {
     display: block;
@@ -176,8 +164,20 @@
 .cinema.mobile-film { height: auto; padding-top: 68px; background: var(--paper); scroll-margin-top: 0; }
 .mobile-film .stage { position: relative; height: auto; aspect-ratio: 16 / 9; background: var(--paper); }
 .mobile-film .stage > video { inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 0; }
-.mobile-film .stage::after, .mobile-film :is(.film-title,.film-offer,.film-progress,.film-bottom,.film-backdrop,.film-status,.film-error) { display: none; }
+.mobile-film .stage::after, .mobile-film :is(.film-title,.film-offer,.film-progress,.film-bottom,.film-status,.film-error) { display: none; }
 body:has(.mobile-film) .store-header { color: var(--ink); text-shadow: none; }
 .mobile-film + .intro { padding: 38px 7% 55px; }
 .mobile-film + .intro .film-access { display: grid; margin-top: 22px; gap: 10px; }
 .mobile-film + .intro .film-access a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; min-height: 44px; border: 1px solid var(--line); border-radius: 4px; text-align: left; }
+
+.film-play { display:none; }
+.mobile-film .stage { position:relative; height:auto; min-height:calc(56.25vw + 280px); background:var(--paper); }
+.mobile-film .stage > video { position:static; width:100%; height:auto; aspect-ratio:16 / 9; }
+.mobile-film .film-play:not([hidden]) { display:block; position:absolute; top:12px; left:7%; padding:10px 14px; background:var(--paper); border:1px solid var(--line); }
+.mobile-film :is(.film-title,.film-offer,.film-error) { position:absolute; inset:auto 0 0; height:280px; max-width:none; padding:20px 7%; color:var(--ink); text-shadow:none; }
+.mobile-film .film-title:not(.film-hidden), .mobile-film .film-offer.active { display:block; }
+.mobile-film .film-title p:last-child { display:none; }
+.mobile-film .film-offer a { border-color:var(--line); }
+.mobile-film + .intro { display:none; }
+.mobile-film.film-unavailable .film-error { top:auto; color:var(--ink); background:var(--paper); }
+

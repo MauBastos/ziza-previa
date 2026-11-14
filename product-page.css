@@ -1,0 +1,32 @@
+body:has(.page-shell) { margin: 0; }
+.page-shell { width: min(1120px, 90%); margin: 0 auto; padding: 100px 0 55px; }
+.page-shell h1 { margin: 12px 0 20px; }
+.product-layout, .stores-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(22px, 5vw, 65px); align-items: start; }
+.detail-back { display: inline-block; margin-bottom: 26px; }
+.product-preview { min-height: 290px; display: grid; place-items: center; overflow: hidden; background: #ece2d6; }
+.product-preview svg { width: 94%; transition: transform .2s ease; }
+.product-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.page-shell fieldset { border: 0; padding: 0; margin: 18px 0; }
+.page-shell legend { font-weight: 600; margin-bottom: 8px; }
+.page-shell fieldset button, .product-controls button { background: transparent; border: 1px solid #968879; padding: 8px 12px; margin-right: 4px; min-height: 40px; cursor: pointer; }
+.page-shell button[aria-pressed="true"] { background: #30271e; color: #fff; }
+.page-shell button:disabled { opacity: .5; cursor: default; }
+.page-shell details { margin: 16px 0; }
+.page-shell summary { cursor: pointer; text-decoration: underline; }
+.page-shell table { width: 100%; text-align: left; border-collapse: collapse; }
+.page-shell :is(th,td) { padding: 7px 4px; border-bottom: 1px solid var(--line); }
+.page-shell caption { text-align: left; margin-bottom: 6px; }
+.page-shell .store-price { font-size: 20px; }
+#stores-map { width: 100%; min-height: 510px; border: 0; background: #ebe3d9; }
+#store-results article { border-bottom: 1px solid var(--line); padding: 0 0 18px; margin-bottom: 20px; }
+#store-results h2 { font-size: 31px; margin: 0 0 8px; }
+#store-results address { font-style: normal; line-height: 1.55; }
+#stores-search-form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 24px; }
+#stores-search-form label { flex-basis: 100%; }
+#store-search { padding: 11px; font: inherit; width: min(330px, 100%); }
+.page-shell [hidden] { display: none; }
+@media (max-width: 740px) {
+  .product-layout, .stores-layout { grid-template-columns: 1fr; }
+  #stores-map { min-height: 350px; }
+}
+@media(prefers-reduced-motion:reduce) { .product-preview svg { transition: none; } }

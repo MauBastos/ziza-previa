@@ -1,0 +1,66 @@
+.store-header {
+  position: fixed;
+  inset: 0 0 auto;
+  height: auto;
+  min-height: 68px;
+  padding: 14px 5%;
+  gap: 16px;
+  z-index: 8;
+  color: #faf6ef;
+  background: transparent;
+  border: 0;
+}
+
+.store-header nav { margin: 0; gap: 20px; }
+.store-header .back-link { color: inherit; }
+.store-actions { display: flex; align-items: center; gap: clamp(6px, 1.25vw, 18px); }
+.store-actions button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  white-space: nowrap;
+}
+.store-actions button[hidden], .store-dialog [hidden] { display: none; }
+.store-actions button:hover { text-decoration: underline; }
+.store-actions svg { width: 21px; height: 21px; }
+#store-count { min-width: 1ch; font-size: 12px; }
+body[data-catalog] .collection-nav { padding-top: 100px; }
+
+
+@media (max-width: 600px) {
+  .store-header nav, .store-header .back-link { display: none; }
+  .store-header .brand { width: 83px; }
+  .store-actions { font-size: 12px; }
+}
+
+.store-dialog { max-height: 85svh; }
+.store-dialog h2 { margin-top: 0; }
+.store-close { position: absolute; top: 8px; right: 14px; border: 0; background: none; font-size: 29px; }
+.store-item, .store-total { display: flex; align-items: center; gap: 12px; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.store-item button { border: 0; background: transparent; text-decoration: underline; }
+.store-dialog fieldset { padding: 10px 12px; border: 1px solid var(--line); }
+.store-dialog label { display: block; padding: 5px 0; }
+#store-account-form input { display: block; width: 100%; padding: 9px; margin-top: 4px; border: 1px solid var(--line); font: inherit; }
+.store-price { display: block; font-weight: 600; margin-top: 8px; }
+
+.catalog-product, .product { display: block; }
+.store-variant { display: block; }
+
+body[data-catalog] .store-header {
+  color: #30271e;
+}
+
+
+body:has(.cinema) .store-header { text-shadow: 0 1px 4px #241b14b3; }
+
+body:has(.cinema) .store-header.over-light-content {
+  color: var(--ink);
+  text-shadow: none;
+}
+
+.preview-label { position: fixed; right: 12px; bottom: 12px; z-index: 8; pointer-events: none; padding: 5px 9px; background: #f5f2eb; color: #30271e; border: 1px solid #dcd6cb; border-radius: 3px; font-size: 11px; }

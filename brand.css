@@ -1,0 +1,14 @@
+.brand:has(.brand-reference) {
+  display: block;
+  width: clamp(88px, 10vw, 148px);
+  aspect-ratio: 810 / 280;
+  flex-shrink: 0;
+  background: currentColor;
+  mask: url("assets/ziza-wordmark.png") center / contain no-repeat;
+}
+
+.brand .brand-reference {
+  display: block;
+  width: 100%;
+  opacity: 0;
+}

@@ -1,4 +1,6 @@
 import {clamp,progressToTime,cueAtTime,validateCues} from './timeline.js';
+import {bindFilmHotspots} from './film-hotspots.js';
+import {bindHomeSearch} from './home-search.js';
 import {bindFilmStart} from './opening.js?v=cinema2';
 const root=document.querySelector('.cinema'),video=document.querySelector('#film'),stage=document.querySelector('.stage'),status=document.querySelector('.film-status');
 const offers=[...document.querySelectorAll('.film-offer')],title=document.querySelector('.film-title'),counter=document.querySelector('#scene-counter'),progressBar=document.querySelector('.film-progress span');
@@ -95,7 +97,7 @@ function configureMedia(config) {
 
   function loadIntro() {
     if (!started && !reduced.matches && config.intro?.src && !intro.getAttribute('src')) {
-      intro.src = config.intro.src;
+      intro.src = mobile.matches && config.intro.srcMobile || config.intro.src;
     }
     playIntro();
   }
@@ -113,6 +115,7 @@ function revealFilm() {
 function startFilm() {
   if (started) return;
   started = true;
+  video.preload = 'auto';
   intro.pause();
   intro.muted = true;
   holdFrame = false;
@@ -280,4 +283,7 @@ new IntersectionObserver(entries=>{inView=entries[0].isIntersecting;if(inView&&!
 async function unlock(){if(!started||mobile.matches||unlocked||reduced.matches||!metadataReady||!video.muted)return;unlocked=true;const position=video.currentTime;try{await video.play();video.pause();video.currentTime=position;schedule()}catch{unlocked=false}}
 window.addEventListener('pointerdown',unlock,{passive:true});window.addEventListener('touchstart',unlock,{passive:true});
 document.querySelector('.film-replay').addEventListener('click',()=>{startFilm();holdFrame=false;root.scrollIntoView({behavior:reduced.matches?'auto':'smooth'});if(mobile.matches||reduced.matches){video.currentTime=0;frozen=false;resume.hidden=true;if(mobile.matches)playMobile();else video.play().catch(()=>{})}});
-try{const config=JSON.parse(document.querySelector('#film-config').textContent);if(!config.src||!Array.isArray(config.cues)||config.cues.length!==3)throw new Error('Film needs three verified cues');cues=config.cues;video.poster=config.poster||'assets/beach-poster.jpg';video.src=config.src;ready=true;configureMedia(config);video.load();playMobile();schedule()}catch(error){console.error(error);root.classList.add('film-unavailable');setStatus('Explore as coleções enquanto preparamos a experiência.');document.querySelector('.film-error').hidden=false}
+try{const config=JSON.parse(document.querySelector('#film-config').textContent);if(!config.src||!Array.isArray(config.cues)||config.cues.length!==3)throw new Error('Film needs three verified cues');cues=config.cues;video.poster=config.poster||'assets/beach-poster.jpg';video.preload=mobile.matches&&!started?'metadata':'auto';video.src=mobile.matches&&config.srcMobile||config.src;ready=true;configureMedia(config);video.load();playMobile();schedule()}catch(error){console.error(error);root.classList.add('film-unavailable');setStatus('Explore as coleções enquanto preparamos a experiência.');document.querySelector('.film-error').hidden=false}
+
+bindFilmHotspots(stage);
+bindHomeSearch();

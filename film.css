@@ -502,10 +502,10 @@ body:has(.mobile-film) .preview-label {
 .film-offer .film-cta { margin-top: 12px; }
 @media (prefers-reduced-motion: no-preference) {
   :is(.film-offer.active, .glasses-spot.is-open) .catalog-pill::before {
-    animation: pill-grow 400ms cubic-bezier(.2,.75,.3,1) both;
+    animation: pill-grow 850ms cubic-bezier(.2,.75,.3,1) both;
   }
   :is(.film-offer.active, .glasses-spot.is-open) .film-cta-label {
-    animation: film-line-in 210ms ease-out 300ms both;
+    animation: film-line-in 240ms ease-out 760ms both;
   }
   .film-offer:focus-visible .catalog-pill::before,
   .film-offer:focus-visible .film-cta-label,
@@ -580,4 +580,9 @@ body:has(.mobile-film) .preview-label {
 @media (max-width: 360px) {
   .home-header.store-header { gap: 6px; }
   .home-header .store-actions { gap: 3px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cinema:not(.mobile-film) .film-offer.active[data-scene="solar"] .catalog-pill::before { animation-duration: 610ms; }
+  .cinema:not(.mobile-film) .film-offer.active[data-scene="solar"] .film-cta-label { animation-delay: 560ms; }
 }

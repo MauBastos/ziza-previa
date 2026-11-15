@@ -26,10 +26,14 @@
   const filmSection = document.querySelector('.cinema');
   if (filmSection) {
     const syncHeaderColor = () => {
-      const brand = header.querySelector('.brand').getBoundingClientRect();
-      const center = brand.top + brand.height / 2;
-      const overLightContent = filmSection.getBoundingClientRect().bottom <= center;
-      header.classList.toggle('over-light-content', overLightContent);
+      const boundary = filmSection.getBoundingClientRect().bottom;
+      const distance = boundary - header.getBoundingClientRect().bottom;
+      const progress = Math.max(0, Math.min(1, 1 - distance / 72));
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const surface = reduced ? Number(progress >= .65) : progress;
+      header.style.setProperty('--header-surface', surface);
+      header.style.setProperty('--header-blur', (1 - surface) * 10 + 'px');
+      header.classList.toggle('over-light-content', surface >= .65);
     };
     window.addEventListener('scroll', syncHeaderColor, {passive: true});
     window.addEventListener('resize', syncHeaderColor);

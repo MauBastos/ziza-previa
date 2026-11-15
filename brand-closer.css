@@ -3,34 +3,42 @@
   isolation: isolate;
   display: grid;
   place-items: center;
-  min-height: clamp(300px, 58svh, 620px);
+  aspect-ratio: 199 / 112;
   overflow: hidden;
-  background: #30271e url("assets/ziza-fechamento.jpg") 52% center / cover;
+  background: #30271e url("assets/ziza-fechamento.jpg") center / contain no-repeat;
 }
-.brand-closer video,
-.brand-closer::before {
+.brand-closer video, .brand-closer::before {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: -2;
 }
-.brand-closer video { object-fit: cover; object-position: 52% center; }
+.brand-closer video { object-fit: contain; }
 .brand-closer::before {
   z-index: -1;
   content: '';
   background: radial-gradient(ellipse at center, #1d1512a8, #1d15123d 80%);
 }
-.brand-closer img {
-  width: clamp(180px, 32vw, 380px);
-  height: auto;
-  filter: brightness(0) invert(1);
+.closer-wordmark {
+  position: relative;
+  width: clamp(156px, 37vw, 380px);
+  aspect-ratio: 810 / 280;
+}
+.closer-wordmark span {
+  position: absolute;
+  inset: 0;
+  background: #fff url("assets/ziza-wordmark.png") center / contain no-repeat;
+  mask: url("assets/ziza-wordmark.png") center / contain no-repeat;
+  clip-path: inset(var(--top) var(--right) var(--bottom) var(--left));
 }
 @media (prefers-reduced-motion: no-preference) {
-  .brand-closer.awaiting-brand img { opacity: 0; }
-  .brand-closer.reveal-brand img { animation: closer-brand-in 1.25s ease-out both; }
+  .brand-closer.awaiting-brand .closer-wordmark { opacity: 0; }
+  .brand-closer.reveal-brand .closer-wordmark span {
+    animation: closer-letter-in .52s ease-out calc(var(--step) * .17s) both;
+  }
 }
-@keyframes closer-brand-in {
-  from { opacity: 0; transform: translateY(8px); }
+@keyframes closer-letter-in {
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }

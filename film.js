@@ -1,6 +1,6 @@
 import {clamp,progressToTime,cueAtTime,validateCues} from './timeline.js';
 import {bindFilmHotspots} from './film-hotspots.js';
-import {bindHomeSearch} from './home-search.js';
+import {bindHomeSearch} from './home-search.js?v=header22';
 import {bindFilmStart} from './opening.js?v=cinema2';
 const root=document.querySelector('.cinema'),video=document.querySelector('#film'),stage=document.querySelector('.stage'),status=document.querySelector('.film-status');
 const offers=[...document.querySelectorAll('.film-offer')],title=document.querySelector('.film-title'),counter=document.querySelector('#scene-counter'),progressBar=document.querySelector('.film-progress span');

@@ -4,10 +4,12 @@ function fold(text) {
 
 export function bindHomeSearch() {
   const button = document.querySelector('.home-search');
-  const dialog = document.querySelector('#home-search');
-  const input = dialog.querySelector('input');
-  const results = dialog.querySelector('ul');
-  const status = dialog.querySelector('[role="status"]');
+  const box = document.querySelector('#home-search');
+  const input = box.querySelector('input');
+  const results = box.querySelector('ul');
+  const status = box.querySelector('[role="status"]');
+  const panel = results.parentElement;
+  let animation;
   const categories = [...document.querySelectorAll('.film-offer')].map(offer => ({
     name: offer.querySelector('.film-cta-label').textContent,
     terms: offer.dataset.scene === 'solar' ? 'solar solares' : offer.dataset.scene,
@@ -20,7 +22,9 @@ export function bindHomeSearch() {
 
   function render() {
     const query = fold(input.value.trim()).split(/\s+/).filter(Boolean);
-    const matches = items.filter(item => query.every(word => fold(item.name + ' ' + item.terms).includes(word)));
+    const previousHeight = panel.hidden ? 0 : panel.getBoundingClientRect().height;
+    animation?.cancel();
+    const matches = query.length ? items.filter(item => query.every(word => fold(item.name + ' ' + item.terms).includes(word))) : [];
     results.replaceChildren(...matches.map(item => {
       const row = document.createElement('li');
       const link = document.createElement('a');
@@ -29,20 +33,36 @@ export function bindHomeSearch() {
       row.append(link);
       return row;
     }));
+    panel.hidden = !query.length;
+    status.hidden = matches.length > 0;
     status.textContent = !query.length ? '' : matches.length ? `${matches.length} ${matches.length === 1 ? 'resultado' : 'resultados'}` : 'Nenhum resultado.';
+    if (!panel.hidden && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      animation = panel.animate([{height: previousHeight + 'px'}, {height: panel.getBoundingClientRect().height + 'px'}], {duration: 260, easing: 'ease-out'});
+    }
+  }
+
+  function close(returnFocus = false) {
+    box.hidden = true;
+    button.setAttribute('aria-expanded', 'false');
+    if (returnFocus) button.focus({preventScroll: true});
   }
 
   input.addEventListener('input', render);
   button.addEventListener('click', () => {
+    if (!box.hidden) { close(true); return; }
+    box.hidden = false;
+    button.setAttribute('aria-expanded', 'true');
     render();
-    dialog.showModal();
-    input.focus();
+    input.focus({preventScroll: true});
   });
-  dialog.addEventListener('keydown', event => {
-    if (event.key === 'Escape') {
+  const header = button.closest('header');
+  header.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !box.hidden) {
       event.preventDefault();
-      dialog.close();
+      close(true);
     }
   });
-  dialog.addEventListener('close', () => button.focus({preventScroll: true}));
+  document.addEventListener('pointerdown', event => {
+    if (!box.hidden && !button.contains(event.target) && !box.contains(event.target)) close();
+  });
 }

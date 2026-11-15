@@ -1,5 +1,5 @@
 import {clamp,progressToTime,cueAtTime,validateCues} from './timeline.js';
-import './opening.js';
+import {bindFilmStart} from './opening.js?v=cinema1';
 const root=document.querySelector('.cinema'),video=document.querySelector('#film'),stage=document.querySelector('.stage'),status=document.querySelector('.film-status');
 const offers=[...document.querySelectorAll('.film-offer')],title=document.querySelector('.film-title'),counter=document.querySelector('#scene-counter'),progressBar=document.querySelector('.film-progress span');
 const mobile=matchMedia('(max-width: 800px), (hover: none) and (pointer: coarse)');
@@ -135,8 +135,7 @@ function updateMobilePanel(time) {
   if (!frozen) {
     panelIndex = time >= 13.5 ? 2 : time >= 10.5 ? 1 : 0;
   }
-  root.style.setProperty('--panel-index', panelIndex);
-  root.classList.toggle('dark-panel', panelIndex === 1);
+  root.dataset.scene = offers[panelIndex].dataset.scene;
   dots.forEach((dot,index)=>dot.setAttribute('aria-pressed',String(index===panelIndex)));
   return offers[panelIndex].dataset.scene;
 }
@@ -155,11 +154,11 @@ dots.forEach((dot,index)=>{
 const panels = picker.closest('.film-panels');
 let swipeStart;
 let suppressCardClickUntil = 0;
-panels.addEventListener('touchstart', event => {
-  swipeStart = mobile.matches && event.touches.length === 1 ? event.touches[0] : null;
+stage.addEventListener('touchstart', event => {
+  swipeStart = mobile.matches && started && event.touches.length === 1 ? event.touches[0] : null;
 }, {passive:true});
-panels.addEventListener('touchcancel', () => { swipeStart = null; });
-panels.addEventListener('touchend', event => {
+stage.addEventListener('touchcancel', () => { swipeStart = null; });
+stage.addEventListener('touchend', event => {
   if (!swipeStart) return;
   const touch = event.changedTouches[0];
   const dx = touch.clientX - swipeStart.clientX;
@@ -230,17 +229,9 @@ function setMotion(){
 }
 
 reduced.addEventListener('change',setMotion);mobile.addEventListener('change',setMotion);setMotion();
-let openingTouchY;
-window.addEventListener('wheel', event => {
-  if (event.deltaY > 0 && !event.ctrlKey) startFilm();
-}, {passive:true});
-stage.addEventListener('touchstart', event => {
-  openingTouchY = event.touches.length === 1 ? event.touches[0].clientY : undefined;
-}, {passive:true});
-stage.addEventListener('touchmove', event => {
-  if (openingTouchY !== undefined && event.touches.length === 1 &&
-      openingTouchY - event.touches[0].clientY > 22) startFilm();
-}, {passive:true});
+bindFilmStart(stage, startFilm, () => {
+  (playButton.hidden ? dots[panelIndex] : playButton).focus({preventScroll: true});
+});
 window.addEventListener('scroll', () => {
   if (scrollY > 0) startFilm();
   if (!mobile.matches) {

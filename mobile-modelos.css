@@ -1,0 +1,115 @@
+:root {
+  color-scheme: light;
+  --paper: #f5f2eb;
+  --ink: #30271e;
+  --line: #d2c9b9;
+  font: 15px 'DM Sans', sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: #eae4d8; }
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.comparison { max-width: 1370px; margin: auto; padding: 34px clamp(16px, 4vw, 58px) 54px; }
+.comparison-header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; }
+.comparison-header h1 { font: 400 clamp(36px, 5vw, 61px)/1.05 'Italiana', Georgia, serif; margin: 0 0 20px; }
+.comparison-header a { font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
+.comparison-nav { display: flex; gap: 18px; padding-bottom: 24px; font-size: 13px; }
+.comparison-nav a { border-bottom: 1px solid; padding: 6px 0; }
+.models { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px; }
+.model { scroll-margin-top: 12px; }
+.model h2 { font-size: 14px; font-weight: 600; margin: 0 0 10px; }
+.screen {
+  min-height: 655px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #30271e30;
+  border-radius: 14px;
+  isolation: isolate;
+  background: var(--paper);
+}
+.screen-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 7%; font-size: 12px; }
+.screen-header a:last-child { display: grid; min-height: 44px; place-items: center; }
+.brand {
+  width: 89px;
+  height: 44px;
+  background: currentColor;
+  mask: url("assets/ziza-wordmark.png") center / contain no-repeat;
+}
+.eyebrow { margin: 0 0 10px; font-size: 9px; letter-spacing: .19em; font-weight: 600; }
+.screen h3 { margin: 0; font: 400 clamp(35px, 3.8vw, 61px)/.98 'Italiana', Georgia, serif; }
+.text-link { display: inline-flex; justify-content: space-between; align-items: center; gap: 22px; min-height: 44px; border-bottom: 1px solid; font-size: 13px; font-weight: 600; }
+.screen-cinema {
+  color: #fff7e9;
+  background:
+    linear-gradient(180deg, #17100ebf, transparent 23%, transparent 38%, #14100de8 83%),
+    url("assets/beach-poster.jpg") 69% center / cover;
+}
+.cinema-copy { margin: auto 7% 0; }
+.cinema-copy h3 { margin-bottom: 16px; }
+.scene-link { display: flex; justify-content: space-between; margin: 24px 7% 13px; min-height: 44px; align-items: center; font-size: 12px; }
+.screen-editorial .screen-header { padding-bottom: 12px; }
+.screen-editorial figure { margin: 0; }
+.screen-editorial img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.screen-editorial figcaption { margin: 8px 7% 0; font-size: 9px; letter-spacing: .16em; }
+.editorial-copy { margin: auto 7%; padding: 24px 0; }
+.editorial-copy > p:not(.eyebrow) { max-width: 24ch; line-height: 1.55; font-size: 14px; }
+.editorial-film { border-top: 1px solid var(--line); margin: 0 7%; min-height: 48px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+.screen-catalog { background: #30271e; color: #fcf0db; }
+.screen-catalog .screen-header { padding-bottom: 6px; }
+.catalog-copy { margin: 20px 7%; }
+.catalog-copy h3 { margin: 0 0 24px; }
+.catalog-copy nav { display: grid; border-top: 1px solid #fcf0db70; }
+.catalog-copy nav a { display: flex; justify-content: space-between; align-items: center; min-height: 54px; border-bottom: 1px solid #fcf0db70; font-size: 14px; font-weight: 500; }
+.catalog-film { margin: auto 0 0; display: grid; position: relative; color: #fff; }
+.catalog-film img { width: 100%; min-height: 190px; aspect-ratio: 16 / 9; object-fit: cover; }
+.catalog-film::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 46%, #18130fd9); }
+.catalog-film > span { position: absolute; inset: auto 7% 15px; z-index: 1; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+@media (max-width: 840px) {
+  .models { display: grid; grid-template-columns: minmax(0, 410px); justify-content: center; gap: 30px; }
+  .screen h3 { font-size: clamp(42px, 13vw, 61px); }
+}
+@media (max-width: 390px) {
+  .screen { min-height: 590px; }
+}
+
+
+.screen {
+  min-height: 0;
+  aspect-ratio: 9 / 16;
+  container-type: inline-size;
+}
+.screen-header { padding-block: 3cqw; }
+.screen h3 { font-size: clamp(31px, 13cqw, 61px); }
+.editorial-copy { padding: 4cqw 0; }
+.editorial-copy > p:not(.eyebrow) { margin-block: 2cqw; }
+.catalog-copy { margin-block: 4cqw; }
+.catalog-copy h3 { margin-bottom: 5cqw; }
+.catalog-copy nav a { min-height: clamp(40px, 13cqw, 54px); }
+.catalog-film img { min-height: 0; }
+.screen-editorial figure { position: relative; }
+.model-video {
+  position: absolute;
+  inset: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .36s ease;
+}
+.model-video.is-playing { opacity: 1; }
+.cinema-video { height: 100%; object-position: 69% center; z-index: -2; }
+.screen-cinema::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, #17100ebf, transparent 23%, transparent 38%, #14100de8 83%);
+  pointer-events: none;
+}
+.screen-cinema { background: url("assets/beach-poster.jpg") 69% center / cover; }
+@media (prefers-reduced-motion: reduce) {
+  .model-video { display: none; }
+}

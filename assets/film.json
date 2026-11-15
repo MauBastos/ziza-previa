@@ -1,8 +1,9 @@
 {
   "src": "assets/film.mp4",
+  "srcMobile": "assets/film-mobile.mp4",
   "poster": "assets/beach-poster.jpg",
   "hasAudio": true,
-  "intro": { "src": "assets/beach.mp4", "hasAudio": true },
+  "intro": { "src": "assets/beach.mp4", "srcMobile": "assets/beach-mobile.mp4", "hasAudio": true },
   "cues": [
     { "id": "solar", "start": 0, "end": 1 },
     { "id": "grau", "start": 10.5, "end": 12.6 },

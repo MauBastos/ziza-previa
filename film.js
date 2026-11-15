@@ -1,5 +1,5 @@
 import {clamp,progressToTime,cueAtTime,validateCues} from './timeline.js';
-import {bindFilmStart} from './opening.js?v=cinema1';
+import {bindFilmStart} from './opening.js?v=cinema2';
 const root=document.querySelector('.cinema'),video=document.querySelector('#film'),stage=document.querySelector('.stage'),status=document.querySelector('.film-status');
 const offers=[...document.querySelectorAll('.film-offer')],title=document.querySelector('.film-title'),counter=document.querySelector('#scene-counter'),progressBar=document.querySelector('.film-progress span');
 const mobile=matchMedia('(max-width: 800px), (hover: none) and (pointer: coarse)');
@@ -25,6 +25,7 @@ function refreshSound() {
     ? !filmHasAudio || !!video.error || !metadataReady
     : !introHasAudio || reduced.matches || !!intro.error || intro.readyState < 2;
   soundButton.setAttribute('aria-pressed', String(soundOn));
+  soundButton.setAttribute('aria-label', soundOn ? 'Silenciar vídeo' : 'Ativar som do vídeo');
 }
 
 function playIntro() {
@@ -229,10 +230,28 @@ function setMotion(){
 }
 
 reduced.addEventListener('change',setMotion);mobile.addEventListener('change',setMotion);setMotion();
+const homeHeader = document.querySelector('.home-header');
+const logoCollapseDistance = 132;
+let openingSwipeDistance = 0;
+let logoProgress = 0;
+
+function updateLogoSize() {
+  if (!mobile.matches) return;
+  const scrolled = Math.max(0, -root.getBoundingClientRect().top);
+  logoProgress = Math.max(logoProgress, clamp((openingSwipeDistance + scrolled) / logoCollapseDistance));
+  homeHeader.style.setProperty('--logo-expansion', 1 - logoProgress);
+}
+
 bindFilmStart(stage, startFilm, () => {
+  openingSwipeDistance = logoCollapseDistance;
+  updateLogoSize();
   (playButton.hidden ? dots[panelIndex] : playButton).focus({preventScroll: true});
+}, distance => {
+  openingSwipeDistance = Math.max(openingSwipeDistance, distance);
+  updateLogoSize();
 });
 window.addEventListener('scroll', () => {
+  updateLogoSize();
   if (scrollY > 0) startFilm();
   if (!mobile.matches) {
     holdFrame = false;
@@ -241,7 +260,12 @@ window.addEventListener('scroll', () => {
   }
 }, {passive:true});
 window.addEventListener('resize',schedule);
-window.addEventListener('pageshow', () => { if (scrollY > 0) startFilm(); });
+window.addEventListener('pageshow', () => {
+  if (scrollY > 0) {
+    updateLogoSize();
+    startFilm();
+  }
+});
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     intro.pause();
